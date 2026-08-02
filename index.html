@@ -368,7 +368,7 @@
                 <button onclick="attemptWithdraw()" class="w-full bg-[#5c61f4] text-white py-4.5 rounded-2xl h-[56px] font-bold text-[16px] active:bg-blue-700 transition-colors">
                     Yechib olishni buyurtma qilish
                 </button>
-                <p class="text-gray-400 text-xs mt-4">Minimal 100 000 so'm</p>
+                <p class="text-gray-400 text-xs mt-4">Minimal 75 000 so'm</p>
             </div>
         </div>
 
@@ -437,14 +437,12 @@
         }
 
         // ========== РАБОТА С LOCALSTORAGE ==========
-        // Ключи для хранения данных
         const STORAGE_KEYS = {
             balance: 'fontspay_balance',
             letters: 'fontspay_letters',
             tasks: 'fontspay_tasks'
         };
 
-        // Загрузка данных из localStorage
         function loadStats() {
             try {
                 const savedBalance = localStorage.getItem(STORAGE_KEYS.balance);
@@ -461,7 +459,6 @@
             }
         }
 
-        // Сохранение данных в localStorage
         function saveStats() {
             try {
                 localStorage.setItem(STORAGE_KEYS.balance, String(globalBalance));
@@ -472,12 +469,10 @@
             }
         }
 
-        // БАЛАНС
         let globalBalance = 0;
         let globalLettersCount = 0;
         let globalTasksCount = 0;
 
-        // Загружаем сохранённые данные при старте
         loadStats();
 
         function updateGlobalStats() {
@@ -486,15 +481,12 @@
             document.getElementById('withdraw-balance').innerText = globalBalance.toLocaleString('uz-UZ');
             document.getElementById('stats-letters').innerText = globalLettersCount;
             document.getElementById('stats-tasks').innerText = globalTasksCount;
-            
-            // Сохраняем при каждом обновлении
             saveStats();
         }
 
-        // Обновляем статистику при загрузке
         updateGlobalStats();
 
-        // АЛФАВИТЫ
+        // ========== АЛФАВИТЫ ==========
         const ruAlphabet = ['А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'];
         const enAlphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
         const zhAlphabet = ['的','一','是','不','了','人','我','在','有','他','这','为','之','大','来','以','个','中','上','们','到','说','国','和','地','也','子','时','道','出'];
@@ -503,24 +495,42 @@
         const plAlphabet = ['A','Ą','B','C','Ć','D','E','Ę','F','G','H','I','J','K','L','Ł','M','N','Ń','O','Ó','P','R','S','Ś','T','U','W','Y','Z','Ź','Ż'];
         const uzAlphabet = ['A','B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','O\'','G\'','SH','CH','NG'];
 
-        // ЗАДАНИЯ С ЦЕНАМИ В СУМАХ
+        // ========== ЗАДАНИЯ С КРАСИВЫМИ КРУГЛЫМИ ЦЕНАМИ ==========
+        // Цена за букву — красивые круглые числа (4500, 6000, 3800 и т.д.)
+        // Итоговая цена — округлена до красивой суммы (небольшая погрешность допустима)
         const tasksData = [
-            { id: 1, title: 'O\'zbekcha (Bosma)', type: 'Bosma shrift', price: 130000, per: 4000, css: 'font-sans font-bold', size: '220px', lang: 'uz', previewLetter: 'O' },
-            { id: 2, title: 'O\'zbekcha (Yozma)', type: 'Qo\'lyozma', price: 180000, per: 6000, css: 'font-caveat', size: '250px', lang: 'uz', previewLetter: 'B' },
+            // Узбекский печатный: 29 букв × 4 500 = 130 500 → 130 000
+            { id: 1, title: 'O\'zbekcha (Bosma)', type: 'Bosma shrift', price: 130000, per: 4500, css: 'font-sans font-bold', size: '220px', lang: 'uz', previewLetter: 'O' },
+            // Узбекский письменный: 29 букв × 6 000 = 174 000
+            { id: 2, title: 'O\'zbekcha (Yozma)', type: 'Qo\'lyozma', price: 174000, per: 6000, css: 'font-caveat', size: '250px', lang: 'uz', previewLetter: 'B' },
+            // Русский печатный: 33 буквы × 3 800 = 125 400 → 125 000
             { id: 3, title: 'Ruscha (Bosma)', type: 'Bosma', price: 125000, per: 3800, css: 'font-sans font-bold', size: '220px', lang: 'ru', previewLetter: 'А' },
-            { id: 4, title: 'Inglizcha (Klassik)', type: 'Shtrixli', price: 120000, per: 4500, css: 'font-playfair', size: '240px', lang: 'en', previewLetter: 'G' },
-            { id: 5, title: 'Ruscha (Qo\'lyozma)', type: 'Qo\'lyozma', price: 175000, per: 5200, css: 'font-caveat', size: '250px', lang: 'ru', previewLetter: 'Б' },
-            { id: 6, title: 'Inglizcha (Kursiv)', type: 'Kalligrafiya', price: 140000, per: 5200, css: 'font-playfair italic', size: '230px', lang: 'en', previewLetter: 'Q' },
+            // Английский классика: 26 букв × 4 600 = 119 600 → 120 000
+            { id: 4, title: 'Inglizcha (Klassik)', type: 'Shtrixli', price: 120000, per: 4600, css: 'font-playfair', size: '240px', lang: 'en', previewLetter: 'G' },
+            // Русский рукописный: 33 буквы × 5 300 = 174 900 → 175 000
+            { id: 5, title: 'Ruscha (Qo\'lyozma)', type: 'Qo\'lyozma', price: 175000, per: 5300, css: 'font-caveat', size: '250px', lang: 'ru', previewLetter: 'Б' },
+            // Английский курсив: 26 букв × 5 400 = 140 400 → 140 000
+            { id: 6, title: 'Inglizcha (Kursiv)', type: 'Kalligrafiya', price: 140000, per: 5400, css: 'font-playfair italic', size: '230px', lang: 'en', previewLetter: 'Q' },
+            // Английский машинка: 26 букв × 3 800 = 98 800 → 100 000
             { id: 7, title: 'Inglizcha (Yozuv mashinkasi)', type: 'Monoshirin', price: 100000, per: 3800, css: 'font-courier', size: '210px', lang: 'en', previewLetter: 'W' },
+            // Русский тонкий: 33 буквы × 4 500 = 148 500 → 150 000
             { id: 8, title: 'Ruscha (Yupqa)', type: 'Zamonaviy', price: 150000, per: 4500, css: 'font-sans font-light', size: '210px', lang: 'ru', previewLetter: 'М' },
-            { id: 9, title: 'Inglizcha (Skript)', type: 'Kalligrafiya', price: 160000, per: 6000, css: 'font-caveat font-bold', size: '260px', lang: 'en', previewLetter: 'B' },
+            // Английский скрипт: 26 букв × 6 200 = 161 200 → 160 000
+            { id: 9, title: 'Inglizcha (Skript)', type: 'Kalligrafiya', price: 160000, per: 6200, css: 'font-caveat font-bold', size: '260px', lang: 'en', previewLetter: 'B' },
+            // Русский плакатный: 33 буквы × 3 800 = 125 400 → 125 000
             { id: 10, title: 'Ruscha (Plakat)', type: 'Aksentli', price: 125000, per: 3800, css: 'font-sans font-black tracking-tighter', size: '220px', lang: 'ru', previewLetter: 'Р' },
-            { id: 11, title: 'Inglizcha (Qattiq)', type: 'Shtrixli', price: 120000, per: 4500, css: 'font-serif font-medium', size: '220px', lang: 'en', previewLetter: 'H' },
+            // Английский строгий: 26 букв × 4 600 = 119 600 → 120 000
+            { id: 11, title: 'Inglizcha (Qattiq)', type: 'Shtrixli', price: 120000, per: 4600, css: 'font-serif font-medium', size: '220px', lang: 'en', previewLetter: 'H' },
+            // Русский машинка: 33 буквы × 3 000 = 99 000 → 100 000
             { id: 12, title: 'Ruscha (Yozuv mashinkasi)', type: 'Monoshirin', price: 100000, per: 3000, css: 'font-courier', size: '210px', lang: 'ru', previewLetter: 'Ф' },
-            { id: 13, title: 'Xitoycha (Ierogliflar)', type: 'Asosiy', price: 680000, per: 22500, css: 'font-sans font-bold', size: '200px', lang: 'zh', previewLetter: '文' },
-            { id: 14, title: 'Arabcha (Bog\'lama)', type: 'Kalligrafiya', price: 380000, per: 13500, css: 'font-sans', size: '220px', lang: 'ar', previewLetter: 'ع' },
-            { id: 15, title: 'Polyakcha (Lotincha)', type: 'Diakritikli', price: 310000, per: 10000, css: 'font-playfair', size: '230px', lang: 'pl', previewLetter: 'Ł' },
-            { id: 16, title: 'Qozoqcha (Kirill)', type: 'Kengaytirilgan', price: 285000, per: 7000, css: 'font-sans font-medium', size: '220px', lang: 'kk', previewLetter: 'Қ' }
+            // Китайский: 30 букв × 22 700 = 681 000 → 680 000
+            { id: 13, title: 'Xitoycha (Ierogliflar)', type: 'Asosiy', price: 680000, per: 22700, css: 'font-sans font-bold', size: '200px', lang: 'zh', previewLetter: '文' },
+            // Арабский: 28 букв × 13 600 = 380 800 → 380 000
+            { id: 14, title: 'Arabcha (Bog\'lama)', type: 'Kalligrafiya', price: 380000, per: 13600, css: 'font-sans', size: '220px', lang: 'ar', previewLetter: 'ع' },
+            // Польский: 32 буквы × 9 700 = 310 400 → 310 000
+            { id: 15, title: 'Polyakcha (Lotincha)', type: 'Diakritikli', price: 310000, per: 9700, css: 'font-playfair', size: '230px', lang: 'pl', previewLetter: 'Ł' },
+            // Казахский: 42 буквы × 6 800 = 285 600 → 285 000
+            { id: 16, title: 'Qozoqcha (Kirill)', type: 'Kengaytirilgan', price: 285000, per: 6800, css: 'font-sans font-medium', size: '220px', lang: 'kk', previewLetter: 'Қ' }
         ];
 
         function renderTasks() {
@@ -679,8 +689,10 @@
             globalLettersCount++; currentLetterIndex++;
             
             if (currentLetterIndex >= totalLetters) {
-                globalBalance += drawEarned; globalTasksCount++;
-                updateGlobalStats(); // Сохраняет в localStorage
+                // Добавляем сумму за задание (фиксированная цена)
+                globalBalance += currentTask.price;
+                globalTasksCount++;
+                updateGlobalStats();
                 tg.HapticFeedback.notificationOccurred('success');
                 showCustomAlert('Topshiriq bajarildi! Pul balansingizga muvaffaqiyatli qo\'shildi.');
                 showScreen('screen-tasks');
@@ -750,9 +762,9 @@
         }
 
         function attemptWithdraw() {
-            if (globalBalance < 100000) {
+            if (globalBalance < 75000) {
                 tg.HapticFeedback.notificationOccurred('error');
-                showCustomAlert('Balansingizda yetarli mablag\' yo\'q. Yechib olish uchun minimal summa 100 000 so\'m.');
+                showCustomAlert('Balansingizda yetarli mablag\' yo\'q. Yechib olish uchun minimal summa 75 000 so\'m.');
             } else if (withdrawInput.value.length < 12 && currentMethod === 'sbp') {
                 tg.HapticFeedback.notificationOccurred('error');
                 showCustomAlert('Iltimos, 12 raqamli telefon raqamini to\'liq kiriting.');
