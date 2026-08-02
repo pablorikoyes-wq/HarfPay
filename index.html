@@ -368,7 +368,7 @@
                 <button onclick="attemptWithdraw()" class="w-full bg-[#5c61f4] text-white py-4.5 rounded-2xl h-[56px] font-bold text-[16px] active:bg-blue-700 transition-colors">
                     Yechib olishni buyurtma qilish
                 </button>
-                <p class="text-gray-400 text-xs mt-4">Minimal 75 000 so'm</p>
+                <p class="text-gray-400 text-xs mt-4">Minimal 100 000 so'm</p>
             </div>
         </div>
 
@@ -752,7 +752,7 @@
         function attemptWithdraw() {
             if (globalBalance < 100000) {
                 tg.HapticFeedback.notificationOccurred('error');
-                showCustomAlert('Balansingizda yetarli mablag\' yo\'q. Yechib olish uchun minimal summa 75 000 so\'m.');
+                showCustomAlert('Balansingizda yetarli mablag\' yo\'q. Yechib olish uchun minimal summa 100 000 so\'m.');
             } else if (withdrawInput.value.length < 12 && currentMethod === 'sbp') {
                 tg.HapticFeedback.notificationOccurred('error');
                 showCustomAlert('Iltimos, 12 raqamli telefon raqamini to\'liq kiriting.');
