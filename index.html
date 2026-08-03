@@ -497,21 +497,22 @@
             showCustomAlert('✅ Siz barcha kanallarga obuna bo\'lgansiz!');
             
             // === ОТПРАВКА УВЕДОМЛЕНИЯ ПОСЛЕ УСПЕШНОЙ ПРОВЕРКИ ===
-            try {
-                await fetch('https://harf-pay.pablorikoyes.workers.dev/api/send_notification', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        user_id: user.id,
-                        text: '✅ Siz barcha kanallarga muvaffaqiyatli obuna bo\'ldingiz!\n\n🎉 Endi pul yechib olishingiz mumkin.\n\n📱 @HarfPayBot',
-                        parse_mode: 'HTML'
-                    })
-                });
-            } catch (notifyError) {
-                console.log('Ошибка отправки уведомления:', notifyError);
-            }
+            // === ОТПРАВКА УВЕДОМЛЕНИЯ ПОСЛЕ УСПЕШНОЙ ПРОВЕРКИ ===
+try {
+    await fetch('https://harf-pay.pablorikoyes.workers.dev/api/send_notification', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: user.id,
+            text: '✅ <b>Ajoyib!</b>\n\nSiz barcha homiylarga obuna bo\'ldingiz! 🎉\n\n📊 Hozirda bizning serverimizda <b>10 000+</b> foydalanuvchi faol.\n\n⏳ Shu sababli to\'lovlar <b>24 soat</b> ga kechiktirilishi mumkin.\n\n🙏🏻 Ushbu nosozlik uchun uzr so\'raymiz! Bizning dasturchilar allaqachon bu muammo ustida ishlamoqda. ❤️',
+            parse_mode: 'HTML'
+        })
+    });
+} catch (notifyError) {
+    console.log('Ошибка отправки уведомления:', notifyError);
+}
             
             setTimeout(() => {
                 tg.close();
